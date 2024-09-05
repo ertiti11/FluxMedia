@@ -1,0 +1,21 @@
+# Usar una imagen base de Python 3.9
+FROM python:3.9-slim
+
+# Establecer el directorio de trabajo en /app
+WORKDIR /app
+
+# Copiar el archivo de requerimientos a la imagen
+# (si tienes un archivo requirements.txt)
+COPY requirements.txt .
+
+# Instalar las dependencias necesarias
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Si no tienes un requirements.txt, puedes instalar pika directamente
+# RUN pip install pika
+
+# Copiar el código fuente de la aplicación a la imagen
+COPY . .
+
+# Comando para ejecutar la aplicación
+CMD ["python", "cola.py"]
