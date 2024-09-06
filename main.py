@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, Request
 from bucket import upload_file
 from rawqueue.utils import send_message
-import shutil
+from shutil import copyfileobj
 import json
 app = FastAPI()
 
@@ -17,7 +17,7 @@ def upload_video(file: UploadFile = File(...)):
     
     # Guardar el archivo en el servidor
     with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+        copyfileobj(file.file, buffer)
     
     # Llamar a la función upload_file
     return upload_file(bucket_name, file_path, file.filename)
@@ -26,9 +26,10 @@ def upload_video(file: UploadFile = File(...)):
 @app.post("/webhook")
 async def handle_webhook(request: Request, payload: dict):
     # Imprimir todo el contenido del payload
+    print(payload)
     payload_json = json.dumps(payload)
-
-    send_message('1', payload_json)
+    print(payload_json)
+    send_message(payload_json)
     
     # Puedes realizar más acciones aquí como guardar en una base de datos, etc.
     

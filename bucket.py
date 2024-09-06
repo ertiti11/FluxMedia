@@ -4,8 +4,8 @@ from minio import Minio
 # Create client with custom HTTP client using proxy server.
 client = Minio(
     "192.168.11.179:42389",  # Corregir la URL eliminando el "https://" y el "path"
-    access_key="pPdrrqsHFcYSjF1W3TPJ",
-    secret_key="x1kORTM3tpzndDi1S9uKkYTsUGWIJfJm6uFvMfJC",
+    access_key="PcrmXHAXGlrD4jGhGUHM",
+    secret_key="WiQsGJxNSYL4iWZQdtSPca2KTSQSAVN6VQLksWVe",
     secure=True,
 )
 
