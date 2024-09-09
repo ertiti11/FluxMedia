@@ -1,8 +1,10 @@
 from fastapi import FastAPI, UploadFile, File, Request
-from bucket import upload_file
+from fastapi.responses import FileResponse
+from bucket import upload_file, get_video_from_bucket
 from rawqueue.utils import send_message
 from shutil import copyfileobj
 import json
+
 app = FastAPI()
 
 @app.get("/")
@@ -34,3 +36,14 @@ async def handle_webhook(request: Request, payload: dict):
     # Puedes realizar más acciones aquí como guardar en una base de datos, etc.
     
     return {"status": "success"}
+
+
+#static cdn get video from minio bucket
+
+@app.get("/video/{video_path:path}")
+def get_video(video_path: str):
+    bucket_name = "videos"
+    local_file_path = get_video_from_bucket(bucket_name, video_path)
+    
+    # Servir el archivo al cliente
+    return FileResponse(local_file_path, media_type='application/vnd.apple.mpegurl')
